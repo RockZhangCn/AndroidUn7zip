@@ -129,6 +129,7 @@ WRes File_Read(CSzFile *p, void *data, size_t *size)
   #endif
 }
 
+//This function need to replace.
 WRes File_Write(CSzFile *p, const void *data, size_t *size)
 {
   size_t originalSize = *size;
@@ -253,12 +254,14 @@ void FileSeqInStream_CreateVTable(CFileSeqInStream *p)
 static SRes FileInStream_Read(void *pp, void *buf, size_t *size)
 {
   CFileInStream *p = (CFileInStream *)pp;
+  //This function need to replace.
   return (File_Read(&p->file, buf, size) == 0) ? SZ_OK : SZ_ERROR_READ;
 }
 
 static SRes FileInStream_Seek(void *pp, Int64 *pos, ESzSeek origin)
 {
   CFileInStream *p = (CFileInStream *)pp;
+  //This function need to replace.
   return File_Seek(&p->file, pos, origin);
 }
 
@@ -274,11 +277,13 @@ void FileInStream_CreateVTable(CFileInStream *p)
 static size_t FileOutStream_Write(void *pp, const void *data, size_t size)
 {
   CFileOutStream *p = (CFileOutStream *)pp;
+  //This function need to replace.
   File_Write(&p->file, data, &size);
   return size;
 }
 
 void FileOutStream_CreateVTable(CFileOutStream *p)
 {
+  //This function need to replace.
   p->s.Write = FileOutStream_Write;
 }

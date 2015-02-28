@@ -229,6 +229,7 @@ int extract7z(const char* inFile, const char* outPath) {
 				break;
 			}
 			processedSize = outSizeProcessed;
+            //write the decompressed data into byte array.
 			if (File_Write(&outFile, outBuffer + offset, &processedSize) != 0
 					|| processedSize != outSizeProcessed) {
 				PrintError("can not write output file");
