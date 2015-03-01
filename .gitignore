@@ -3,6 +3,8 @@
 tags
 cscope*
 bin
+gen
+local.properties
 *.ko
 *.obj
 *.elf
