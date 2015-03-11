@@ -351,7 +351,7 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved)
 		return result;
 	}
 
-	env->RegisterNatives(env->FindClass("com.tencent.smtt.util.Inflater"), methods_table, sizeof(methods_table)/sizeof(methods_table[0]));
+	env->RegisterNatives(env->FindClass("com/tencent/smtt/util/Inflater"), methods_table, sizeof(methods_table)/sizeof(methods_table[0]));
 
 	return JNI_VERSION_1_4;
 }
