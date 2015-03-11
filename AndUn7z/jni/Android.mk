@@ -1,6 +1,6 @@
 JNI_PATH := $(call my-dir)
 
-LOCAL_PATH := $(JNI_PATH)/un7z/
+LOCAL_PATH := $(JNI_PATH)/un7z
 
 include $(CLEAR_VARS)
 
@@ -11,26 +11,17 @@ LOCAL_MODULE := un7z
 LOCAL_CFLAGS := -DDEBUG 
 				
 LOCAL_SRC_FILES := \
-		./src/7zAlloc.c \
-		./src/7zBuf.c \
-		./src/7zCrc.c \
-		./src/7zCrcOpt.c \
-		./src/7zDec.c \
-		./src/7zFile.c \
-		./src/7zIn.c \
-		./src/7zStream.c \
-		./src/Bcj2.c \
-		./src/Bra.c \
-		./src/Bra86.c \
-		./src/CpuArch.c \
-		./src/Lzma2Dec.c \
-		./src/LzmaDec.c \
-		./src/Ppmd7.c \
-		./src/Ppmd7Dec.c \
-\
-		./src/7zMain.c \
-		./com_hu_andun7z_AndUn7z.cpp
+		src/xz_crc32.cpp \
+		src/xz_crc64.cpp \
+		src/xz_dec_bcj.cpp \
+		src/xz_dec_lzma2.cpp \
+		src/xz_dec_stream.cpp \
+		src/xzminidec.cpp \
+		JniLoad.cpp
         
+LOCAL_CFLAGS := -O2 -g -DTENCENT  -DXZ_DEC_X86 -DXZ_DEC_POWERPC -DXZ_DEC_IA64 \
+		-DXZ_DEC_ARM -DXZ_DEC_ARMTHUMB -DXZ_DEC_SPARC  -DXZ_USE_CRC64 -DXZ_DEC_ANY_CHECK 
+
 LOCAL_LDLIBS := -llog 
 
 include $(BUILD_SHARED_LIBRARY)

@@ -1,10 +1,11 @@
 
-
-
 #include <jni.h>
+#include <android/log.h>
+#include "src/xz.h"
 
 static void throwExceptionForZlibError(JNIEnv* env, const char* exceptionClassName, int error) 
 {
+	/*
     if (error == XZ_MEM_ERROR || XZ_MEMLIMIT_ERROR )
     {
         jniThrowException(env, "java/lang/OutOfMemoryError", NULL);
@@ -29,6 +30,7 @@ static void throwExceptionForZlibError(JNIEnv* env, const char* exceptionClassNa
     {
         jniThrowException(env, exceptionClassName, "Unkown Error");
     }
+	*/
 }
 
 #undef BUFSIZ
@@ -68,6 +70,8 @@ public:
 
 jlong XZInflater::Inflater_createStream(JNIEnv* env, jobject, jboolean noHeader) 
 {
+	__android_log_print(ANDROID_LOG_ERROR, "ROCKXZ", "createStream was invoked");
+	/*
     ALOGE("Inflater_createStream is invoked.");
     UniquePtr<XZStream> jstream(new XZStream);
     if (jstream.get() == NULL) 
@@ -99,10 +103,13 @@ jlong XZInflater::Inflater_createStream(JNIEnv* env, jobject, jboolean noHeader)
 
     ALOGE("Inflater_createStream End");
     return reinterpret_cast<uintptr_t>(jstream.release());
+	*/
+	return 0;
 }
 
 void XZInflater::Inflater_setInputImpl(JNIEnv* env, jobject, jbyteArray buf, jint off, jint len, jlong handle) 
 {
+	/*
     ALOGE("Inflater_setInputImpl is invoked.");
     XZStream * jstream = toNativeXZStream(handle);
 
@@ -116,6 +123,7 @@ void XZInflater::Inflater_setInputImpl(JNIEnv* env, jobject, jbyteArray buf, jin
         env->ReleaseByteArrayElements(buf, bytes, 0);
     }
     ALOGE("Inflater_setInputImpl End.");
+	*/
 }
 
 jint XZInflater::Inflater_setFileInputImpl(JNIEnv* env, jobject, jobject javaFileDescriptor, jlong off, jint len, jlong handle) 
@@ -167,6 +175,7 @@ jint XZInflater::Inflater_setFileInputImpl(JNIEnv* env, jobject, jobject javaFil
 //buf store the decompressed data.
 jint XZInflater::Inflater_inflateImpl(JNIEnv* env, jobject recv, jbyteArray buf, int off, int len, jlong handle) 
 {
+	/*
     ALOGE("Inflater_inflateImpl is invoked.");
     XZStream * jstream = toNativeXZStream(handle);
 
@@ -260,6 +269,8 @@ jint XZInflater::Inflater_inflateImpl(JNIEnv* env, jobject recv, jbyteArray buf,
 #endif
 	//sJavaGlue.clazz = (jclass)env->NewGlobalRef(clazz);
 	//jclass inflaterClass = env->FindClass("com/tencent/smtt/webkit/CacheManager$CacheResult");
+	*/
+	return 0;
 }
 
 jint XZInflater::Inflater_getAdlerImpl(JNIEnv*, jobject, jlong handle) 
@@ -272,11 +283,13 @@ jint XZInflater::Inflater_getAdlerImpl(JNIEnv*, jobject, jlong handle)
 
 void XZInflater::Inflater_endImpl(JNIEnv*, jobject, jlong handle) 
 {
+	/*
     ALOGE("Inflater_endImpl is invoked.");
     XZStream * jstream = toNativeXZStream(handle);
     xz_dec_end(jstream ->s);
     delete jstream;
     ALOGE("Inflater_endImpl End.");
+	*/
 }
 
 void XZInflater::Inflater_setDictionaryImpl(JNIEnv* env, jobject, jbyteArray dict, int off, int len, jlong handle) 
@@ -288,23 +301,31 @@ void XZInflater::Inflater_setDictionaryImpl(JNIEnv* env, jobject, jbyteArray dic
 
 void XZInflater::Inflater_resetImpl(JNIEnv* env, jobject, jlong handle) 
 {
+	/*
     ALOGE("Inflater_resetImpl is invoked.");
     XZStream * jstream = toNativeXZStream(handle);
     xz_dec_reset(jstream -> s);
+	*/
 }
 
 jlong XZInflater::Inflater_getTotalOutImpl(JNIEnv*, jobject, jlong handle) 
 {
+	/*
     ALOGE("Inflater_getTotalOutImpl is invoked.");
     XZStream * jstream = toNativeXZStream(handle);
     return jstream->b.out_size - jstream->b.out_pos;
+	*/
+	return 0l;
 }
 
 jlong XZInflater::Inflater_getTotalInImpl(JNIEnv*, jobject, jlong handle) 
 {
+	/*
     ALOGE("Inflater_getTotalInImpl is invoked.");
     XZStream * jstream = toNativeXZStream(handle);
     return jstream->b.in_size - jstream->b.in_pos;
+	*/
+	return 0l;
 }
 
 static const JNINativeMethod methods_table[] = 
@@ -330,7 +351,7 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved)
 		return result;
 	}
 
-	env->RegisterNatives(env->FindClass("com.tencent.smtt.util.Inflater"), methods_table, NELEM(methods_table));
+	env->RegisterNatives(env->FindClass("com.tencent.smtt.util.Inflater"), methods_table, sizeof(methods_table)/sizeof(methods_table[0]));
 
 	return JNI_VERSION_1_4;
 }

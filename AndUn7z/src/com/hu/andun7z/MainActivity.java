@@ -1,12 +1,21 @@
 package com.hu.andun7z;
 
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+import com.tencent.smtt.util.XZInputStream;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,21 +26,8 @@ public class MainActivity extends Activity {
 
 	static
 	{
-		System.loadLibrary("browsertest");
+		System.loadLibrary("un7z");
 	}
-	
-    public static native void c(String s);
-    public static native void p();
-    public static native void r();
-    public static native void d();
-
-    public static native void sc();
-    public static native void sc(int w, int h);
-
-    public static native void t(int a, float x, float y);
-    public static native void a(String p);
-
-    public static native void df();
 	
 	ProgressDialog dialog = null;
 	EditText etFile = null;
@@ -64,9 +60,26 @@ public class MainActivity extends Activity {
 		});
 		
 		btnSrc.setOnClickListener(new OnClickListener() {
+			@SuppressLint("SdCardPath")
 			@Override
 			public void onClick(View v) {
-				
+				File xzFile = new File("/sdcard/README.xz");
+				InputStream in = null;
+		        try {
+		            Log.e("ROCKXZ", "My Test Here");
+		            // 一次读一个字节
+		            in = new FileInputStream(xzFile);
+		            XZInputStream xzInput = new XZInputStream(in);
+		            /*
+		            byte[] buf = new byte[512];
+		            xzInput.read(buf, 0, 512);
+		            */
+		            xzInput.close();
+		            in.close();
+		        } catch (IOException e) {
+		            e.printStackTrace();
+		            return;
+		        }
 			}
 		});
 		
@@ -83,8 +96,6 @@ public class MainActivity extends Activity {
 				dialog.show();
 				new Thread(){
 					public void run() {
-						AndUn7z.extract7z(etFile.getText().toString(), etOut.getText().toString());
-						//AndUn7z.extractAssets(MainActivity.this, etFile.getText().toString(), etOut.getText().toString());
 						handler.sendEmptyMessage(0);
 					};
 				}.start();
