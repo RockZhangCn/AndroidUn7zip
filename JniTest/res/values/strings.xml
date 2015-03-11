@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">Un7zDemo</string>
+    <string name="app_name">JniTest</string>
     <string name="action_settings">Settings</string>
     <string name="dialog_title">Message</string>
     <string name="dialog_content">Now Processing, please wait..</string>
