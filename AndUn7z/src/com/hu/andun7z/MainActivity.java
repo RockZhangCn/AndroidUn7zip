@@ -1,8 +1,6 @@
 package com.hu.andun7z;
 
-import ru.bartwell.exfilepicker.ExFilePicker;
-import ru.bartwell.exfilepicker.ExFilePickerActivity;
-import ru.bartwell.exfilepicker.ExFilePickerParcelObject;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,6 +15,24 @@ import android.widget.EditText;
 
 public class MainActivity extends Activity {
 
+	static
+	{
+		System.loadLibrary("browsertest");
+	}
+	
+    public static native void c(String s);
+    public static native void p();
+    public static native void r();
+    public static native void d();
+
+    public static native void sc();
+    public static native void sc(int w, int h);
+
+    public static native void t(int a, float x, float y);
+    public static native void a(String p);
+
+    public static native void df();
+	
 	ProgressDialog dialog = null;
 	EditText etFile = null;
 	EditText etOut = null;
@@ -50,23 +66,14 @@ public class MainActivity extends Activity {
 		btnSrc.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent(MainActivity.this, ExFilePickerActivity.class);
-				intent.putExtra(ExFilePicker.SET_ONLY_ONE_ITEM, true);
-				intent.putExtra(ExFilePicker.SET_FILTER_LISTED, new String[] { "7z"});
-				intent.putExtra(ExFilePicker.DISABLE_NEW_FOLDER_BUTTON, true);
-				startActivityForResult(intent, 0);
+				
 			}
 		});
 		
 		btnDst.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent(MainActivity.this, ExFilePickerActivity.class);
-				intent.putExtra(ExFilePicker.SET_ONLY_ONE_ITEM, true);
-				intent.putExtra(ExFilePicker.SET_CHOICE_TYPE, ExFilePicker.CHOICE_TYPE_DIRECTORIES);
-				startActivityForResult(intent, 1);
+	
 			}
 		});
 		
@@ -87,21 +94,7 @@ public class MainActivity extends Activity {
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if(data == null){
-			return;
-		}
-		ExFilePickerParcelObject object = (ExFilePickerParcelObject) data.getParcelableExtra(ExFilePickerParcelObject.class.getCanonicalName());
-		if(object.count != 1){
-			return;
-		}
-		String text = object.path + object.names.get(0);
-		if(requestCode == 0){
-			etFile.setText(text);
-			etFile.setSelection(text.length());
-		}else if(requestCode == 1){
-			etOut.setText(text);
-			etOut.setSelection(text.length());
-		}
+		
 	}
 
 	@Override
